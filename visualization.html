@@ -10,113 +10,41 @@
   <script>
     const spec = {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "natural-disasters-by-type",
   "data": {
-    "url": "https://raw.githubusercontent.com/andrewpersaud1/Climate-change-vs-human-health/main/datasets/natural-disasters-by-type.csv"
+    "url": "https://raw.githubusercontent.com/andrewpersaud1/Climate-change-vs-human-health/main/datasets/heat-deaths_fig-1-real.csv"
   },
   "vconcat": [
     {
+      "width": 480,
+      "mark": "area",
       "encoding": {
-        "color": {
-          "condition": {
-            "param": "brush",
-            "title": "Entity",
-            "field": "Entity",
-            "type": "nominal",
-            "scale": {
-              "domain": [
-                "All natural disasters",
-                "Drought",
-                "Earthquake",
-                "Extreme temperature",
-                "Extreme weather",
-                "Flood",
-                "Landslide",
-                "Mass movement (dry)",
-                "Volcanic activity",
-                "Wildfire"
-              ],
-              "range": [
-                "#e7ba52",
-                "#a7a7a7",
-                "#aec7e8",
-                "#1f77b4",
-                "#9467bd",
-                "#5c5141",
-                "#91e6ae",
-                "#0a276b",
-                "#9c77c9",
-                "#b59aa1"
-              ]
-            }
-          },
-          "value": "lightgray"
-        },
         "x": {
           "field": "Year",
-          "timeUnit": "year",
-          "title": "Year",
-          "axis": {"format": "%b"}
+          "type": "temporal",
+          "scale": {"domain": {"param": "brush"}},
+          "axis": {"title": "Year"}
         },
         "y": {
-          "title": "Number of disasters (EMDAT (2020))",
-          "field": "Number of disasters (EMDAT (2020))",
-          "scale": {"domain": [0, 500]},
+          "field": "Underlying cause of death annual",
           "type": "quantitative"
         }
-      },
-      "width": 600,
-      "height": 300,
-      "mark": "point",
+      }
+    },
+    {
+      "width": 480,
+      "height": 60,
+      "mark": "area",
       "params": [
         {"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}
       ],
-      "transform": [{"filter": {"param": "click"}}]
-    },
-    {
       "encoding": {
-        "color": {
-          "condition": {
-            "param": "click",
-            "field": "Entity",
-            "scale": {
-              "domain": [
-                "All natural disasters",
-                "Drought",
-                "Earthquake",
-                "Extreme temperature",
-                "Extreme weather",
-                "Flood",
-                "Landslide",
-                "Mass movement (dry)",
-                "Volcanic activity",
-                "Wildfire"
-              ],
-              "range": [
-                "#e7ba52",
-                "#a7a7a7",
-                "#aec7e8",
-                "#1f77b4",
-                "#9467bd",
-                "#5c5141",
-                "#91e6ae",
-                "#0a276b",
-                "#9c77c9",
-                "#b59aa1"
-              ]
-            }
-          },
-          "value": "lightgray"
-        },
-        "x": {"aggregate": "count"},
-        "y": {"title": "Entity", "field": "Entity"}
-      },
-      "width": 600,
-      "mark": "bar",
-      "params": [
-        {"name": "click", "select": {"type": "point", "encodings": ["color"]}}
-      ],
-      "transform": [{"filter": {"param": "brush"}}]
+        "x": {"field": "Year", "type": "temporal"},
+        "y": {
+          "field": "Underlying and contributing causes of death",
+          "type": "quantitative",
+          "axis": {"tickCount": 3, "grid": false}
+        }
+      }
     }
   ],
   "config": {}
