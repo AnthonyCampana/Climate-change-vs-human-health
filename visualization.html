@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+</head>
+<body>
+  <div id="vis"/>
+  <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "natural-disasters-by-type",
+  "data": {
+    "url": "https://raw.githubusercontent.com/andrewpersaud1/Climate-change-vs-human-health/main/datasets/natural-disasters-by-type.csv"
+  },
+  "vconcat": [
+    {
+      "encoding": {
+        "color": {
+          "condition": {
+            "param": "brush",
+            "title": "Entity",
+            "field": "Entity",
+            "type": "nominal",
+            "scale": {
+              "domain": [
+                "All natural disasters",
+                "Drought",
+                "Earthquake",
+                "Extreme temperature",
+                "Extreme weather",
+                "Flood",
+                "Landslide",
+                "Mass movement (dry)",
+                "Volcanic activity",
+                "Wildfire"
+              ],
+              "range": [
+                "#e7ba52",
+                "#a7a7a7",
+                "#aec7e8",
+                "#1f77b4",
+                "#9467bd",
+                "#5c5141",
+                "#91e6ae",
+                "#0a276b",
+                "#9c77c9",
+                "#b59aa1"
+              ]
+            }
+          },
+          "value": "lightgray"
+        },
+        "x": {"field": "Year", "timeUnit": "year", "title": "Year"},
+        "y": {
+          "title": "Number of disasters (EMDAT (2020))",
+          "field": "Number of disasters (EMDAT (2020))",
+          "scale": {"domain": [0, 500]},
+          "type": "quantitative"
+        }
+      },
+      "width": 600,
+      "height": 300,
+      "mark": "point",
+      "params": [
+        {"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}
+      ],
+      "transform": [{"filter": {"param": "click"}}]
+    },
+    {
+      "encoding": {
+        "color": {
+          "condition": {
+            "param": "click",
+            "field": "Entity",
+            "scale": {
+              "domain": [
+                "All natural disasters",
+                "Drought",
+                "Earthquake",
+                "Extreme temperature",
+                "Extreme weather",
+                "Flood",
+                "Landslide",
+                "Mass movement (dry)",
+                "Volcanic activity",
+                "Wildfire"
+              ],
+              "range": [
+                "#e7ba52",
+                "#a7a7a7",
+                "#aec7e8",
+                "#1f77b4",
+                "#9467bd",
+                "#5c5141",
+                "#91e6ae",
+                "#0a276b",
+                "#9c77c9",
+                "#b59aa1"
+              ]
+            }
+          },
+          "value": "lightgray"
+        },
+        "x": {"aggregate": "count"},
+        "y": {"title": "Entity", "field": "Entity"}
+      },
+      "width": 600,
+      "mark": "bar",
+      "params": [
+        {"name": "click", "select": {"type": "point", "encodings": ["color"]}}
+      ],
+      "transform": [{"filter": {"param": "brush"}}]
+    }
+  ],
+  "config": {}
+};
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
+</html>
